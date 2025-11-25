@@ -1,0 +1,4 @@
+# PNPM Workspace Configuration
+packages:
+  - apps/*
+  - packages/*

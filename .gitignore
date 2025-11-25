@@ -1,0 +1,12 @@
+node_modules/
+.pnpm-store/
+dist/
+build/
+.nx/
+.next/
+.cache/
+coverage/
+tmp/
+*.log
+.DS_Store
+.env.*
