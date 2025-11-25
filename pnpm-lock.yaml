@@ -67,9 +67,6 @@ importers:
       handlebars:
         specifier: ^4.7.8
         version: 4.7.8
-      ioredis:
-        specifier: ^5.8.2
-        version: 5.8.2
       nanoid:
         specifier: ^5.0.9
         version: 5.1.6
@@ -213,6 +210,9 @@ importers:
       '@types/react-dom':
         specifier: ^19.0.3
         version: 19.2.3(@types/react@19.2.7)
+      '@types/react-syntax-highlighter':
+        specifier: ^15.5.13
+        version: 15.5.13
       eslint:
         specifier: ^8.57.0
         version: 8.57.1
@@ -3014,6 +3014,12 @@ packages:
       }
     peerDependencies:
       '@types/react': ^19.2.0
+
+  '@types/react-syntax-highlighter@15.5.13':
+    resolution:
+      {
+        integrity: sha512-uLGJ87j6Sz8UaBAooU0T6lWJ0dBmjZgN1PZTrj05TNql2/XpC6+4HhMT5syIdFUUt+FASfCeLLv4kBygNU+8qA==,
+      }
 
   '@types/react-transition-group@4.4.12':
     resolution:
@@ -10014,6 +10020,10 @@ snapshots:
   '@types/prop-types@15.7.15': {}
 
   '@types/react-dom@19.2.3(@types/react@19.2.7)':
+    dependencies:
+      '@types/react': 19.2.7
+
+  '@types/react-syntax-highlighter@15.5.13':
     dependencies:
       '@types/react': 19.2.7
 

@@ -46,7 +46,7 @@ export default function HomePage() {
 
   // Handle message submission - creates chat and sends first message
   const handleSubmit = useCallback(
-    async (message: { text?: string; files?: any[] }) => {
+    async (message: { text?: string }) => {
       if (!message.text?.trim()) {
         return;
       }

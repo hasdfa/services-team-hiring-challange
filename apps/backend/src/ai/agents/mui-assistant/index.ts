@@ -1,5 +1,10 @@
 import type { StreamTextResult, ToolSet } from 'ai';
-import { streamText, createUIMessageStream, type ModelMessage } from 'ai';
+import {
+  streamText,
+  createUIMessageStream,
+  type ModelMessage,
+  stepCountIs,
+} from 'ai';
 import { defaultModel } from '../../models.js';
 import { makeSystemPrompt } from './prompt.js';
 import { searchDocs } from './tools/search-docs.js';
@@ -57,9 +62,10 @@ export async function generateResponse(
             },
             ...messages,
           ],
+          stopWhen: stepCountIs(20),
           maxRetries: 5,
           temperature: 0.7,
-          maxOutputTokens: 1000,
+          maxOutputTokens: 10000,
           tools: {
             'search-docs': searchDocs,
             'write-file': writeFileTool,
@@ -74,6 +80,11 @@ export async function generateResponse(
 
         // Merge the stream into the UI message stream
         writer.merge(streamResult.toUIMessageStream());
+
+        // IMPORTANT: Wait for the stream to complete before execute returns
+        // This ensures toolCalls, toolResults, and text are available in onFinish
+        await streamResult.response;
+
         result = streamResult as unknown as StreamTextResult<ToolSet, unknown>;
       },
       onError: (error) => {

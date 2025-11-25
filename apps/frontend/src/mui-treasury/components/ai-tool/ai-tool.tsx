@@ -39,10 +39,16 @@ export const Tool = memo(({ children, sx, defaultOpen = false }: ToolProps) => {
     >
       {React.Children.map(children, (child) =>
         React.isValidElement(child)
-          ? React.cloneElement(child as React.ReactElement<any>, {
-              isOpen,
-              onToggle: () => setIsOpen(!isOpen),
-            })
+          ? React.cloneElement(
+              child as React.ReactElement<{
+                isOpen?: boolean;
+                onToggle?: () => void;
+              }>,
+              {
+                isOpen,
+                onToggle: () => setIsOpen(!isOpen),
+              }
+            )
           : child
       )}
     </Box>

@@ -144,10 +144,10 @@ function getLanguageFromPath(filePath: string): string {
  */
 function WriteFileToolDisplay({
   input,
-  state,
+  state = 'input-streaming',
 }: {
   input: unknown;
-  state: string;
+  state?: string;
 }) {
   const parsedInput = tryParseToolInput(input);
   const filePath = parsedInput?.filePath;
@@ -368,6 +368,9 @@ function ToolCallDisplay({
   error?: string;
 }) {
   const [expanded, setExpanded] = useState(false);
+  if (toolName === 'write-file') {
+    return null;
+  }
 
   return (
     <Paper
@@ -500,9 +503,9 @@ function MessageParts({
       if (
         part.type === 'tool-write-file' ||
         ((part.type as string).startsWith('tool-') &&
-          (part as any).toolName === 'write-file')
+          (part as unknown as { toolName?: string }).toolName === 'write-file')
       ) {
-        const toolPart = part as any;
+        const toolPart = part as unknown as { input?: unknown; state?: string };
         if (toolPart.state === 'output-available' && toolPart.input) {
           const input = tryParseToolInput(toolPart.input);
           if (input?.filePath && input?.content) {
@@ -534,7 +537,6 @@ function MessageParts({
         if (part.type === 'reasoning') {
           // Reasoning content might be in different properties depending on the SDK version
           const reasoningPart = part as unknown as Record<string, unknown>;
-          console.log('part', part);
           const reasoningContent = String(
             reasoningPart.reasoning ||
               reasoningPart.content ||
@@ -576,9 +578,13 @@ function MessageParts({
         if (
           part.type === 'tool-write-file' ||
           ((part.type as string).startsWith('tool-') &&
-            (part as any).toolName === 'write-file')
+            (part as unknown as { toolName?: string }).toolName ===
+              'write-file')
         ) {
-          const toolPart = part as any;
+          const toolPart = part as unknown as {
+            input?: unknown;
+            state?: string;
+          };
           return (
             <WriteFileToolDisplay
               key={index}
@@ -591,9 +597,12 @@ function MessageParts({
         // Handle dynamic-tool type for write-file
         if (
           part.type === 'dynamic-tool' &&
-          (part as any).toolName === 'write-file'
+          (part as unknown as { toolName?: string }).toolName === 'write-file'
         ) {
-          const toolPart = part as any;
+          const toolPart = part as unknown as {
+            input?: unknown;
+            state?: string;
+          };
           return (
             <WriteFileToolDisplay
               key={index}
@@ -651,6 +660,7 @@ export function ChatView({
     const isNowReady = status === 'ready';
 
     if (wasStreaming && isNowReady && generatedFilesRef.current.length > 0) {
+      // eslint-disable-next-line no-console
       console.log('Generated files:', generatedFilesRef.current);
       // Reset for next response
       generatedFilesRef.current = [];

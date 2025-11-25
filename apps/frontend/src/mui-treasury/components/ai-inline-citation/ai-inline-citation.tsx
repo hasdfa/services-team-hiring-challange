@@ -187,7 +187,7 @@ export type InlineCitationCardBodyProps = ComponentProps<typeof Box> & {
 export const InlineCitationCardBody = ({
   anchorEl,
   open,
-  onClose,
+  onClose: _onClose,
   onMouseEnter,
   onMouseLeave,
   children,
@@ -512,7 +512,7 @@ export const InlineCitationQuote = ({
       m: 0,
       ...sx,
     }}
-    {...(props as any)}
+    {...(props as React.ComponentProps<'blockquote'>)}
   >
     {children}
   </Box>

@@ -41,79 +41,75 @@ export async function buildPartsFromStreamResult(
 ): Promise<MessagePart[]> {
   const parts: MessagePart[] = [];
 
-  // Log available properties on result
-  console.log('=== StreamTextResult Debug ===');
-  console.log('Result keys:', Object.keys(result));
-  console.log('Files array length:', files.length);
-
   // Extract reasoning if available
   const reasoningText = await extractReasoning(result);
   if (reasoningText) {
-    console.log('✓ Found reasoning');
     parts.push({ type: 'reasoning', text: reasoningText });
   }
 
   // Extract tool calls with results
   try {
-    // Try to access toolCalls in different ways
     const toolCalls = await result.toolCalls;
     const toolResults = await result.toolResults;
 
-    console.log('Tool calls count:', toolCalls?.length || 0);
-    console.log('Tool results count:', toolResults?.length || 0);
+    // Create a map of tool results by toolCallId for efficient lookup
+    // Note: AI SDK v5 uses 'output' for results, not 'result'
+    const toolResultsMap = new Map<
+      string,
+      { output?: unknown; error?: unknown }
+    >();
+    if (toolResults && Array.isArray(toolResults)) {
+      toolResults.forEach((tr: any) => {
+        if (tr.toolCallId) {
+          toolResultsMap.set(tr.toolCallId, {
+            output: tr.output,
+            error: tr.error,
+          });
+        }
+      });
+    }
 
     if (toolCalls && toolCalls.length > 0) {
-      console.log('✓ Processing tool calls');
-      toolCalls.forEach((call, i) => {
-        console.log(`  - Tool ${i}: ${call.toolName}`);
-        console.log(`    Args:`, JSON.stringify(call.args).substring(0, 100));
+      toolCalls.forEach((call) => {
+        // AI SDK v5 uses 'input' for args, not 'args'
+        const toolInput =
+          (call as unknown as { input?: unknown; args?: unknown }).input ??
+          (call as unknown as { args?: unknown }).args ??
+          {};
 
-        const toolResult = toolResults?.[i];
-        console.log(`    Result:`, toolResult?.result ? 'present' : 'none');
+        // Match tool result by toolCallId
+        const toolResult = toolResultsMap.get(call.toolCallId);
 
         parts.push({
           type: 'tool-call',
           toolCallId: call.toolCallId,
           toolName: call.toolName,
-          args: call.args as Record<string, unknown>,
-          result: toolResult?.result
-            ? String(toolResult.result)
-            : undefined,
-          error: toolResult?.error
-            ? String(toolResult.error)
-            : undefined,
+          args: toolInput as Record<string, unknown>,
+          result: toolResult?.output ? String(toolResult.output) : undefined,
+          error: toolResult?.error ? String(toolResult.error) : undefined,
         });
       });
-    } else {
-      console.log('⚠ No tool calls found');
     }
   } catch (error) {
-    console.error('❌ Error extracting tool calls:', error);
+    console.error('Error extracting tool calls:', error);
   }
 
   // Add final text
   const text = await result.text;
   if (text) {
-    console.log('✓ Found text (length:', text.length, ')');
     parts.push({ type: 'text', text });
   }
 
   // Add files
   if (files.length > 0) {
-    console.log('✓ Adding', files.length, 'files');
     files.forEach((file) => {
-      console.log(`  - File: ${file.filePath} (${file.content.length} chars)`);
       parts.push({
         type: 'file',
         filePath: file.filePath,
         content: file.content,
       });
     });
-  } else {
-    console.log('⚠ No files to add');
   }
-
-  console.log('=== Final parts:', parts.map(p => p.type).join(', '), '===');
 
   return parts;
 }

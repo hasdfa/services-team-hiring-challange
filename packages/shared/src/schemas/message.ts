@@ -17,7 +17,7 @@ export const toolCallPartSchema = z.object({
   type: z.literal('tool-call'),
   toolCallId: z.string(),
   toolName: z.string(),
-  args: z.record(z.unknown()),
+  args: z.record(z.string(), z.unknown()),
   result: z.string().optional(),
   error: z.string().optional(),
 });

@@ -10,7 +10,14 @@ export type ImageProps = Experimental_GeneratedImage &
   };
 
 export const Image = memo(
-  ({ base64, uint8Array, mediaType, alt, sx, ...props }: ImageProps) => (
+  ({
+    base64,
+    uint8Array: _uint8Array,
+    mediaType,
+    alt,
+    sx,
+    ...props
+  }: ImageProps) => (
     <Box
       component="img"
       alt={alt}
