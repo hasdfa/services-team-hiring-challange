@@ -1,39 +1,68 @@
 # MUI Assistant: Engineering Challenges
 
-Welcome to the MUI Assistant hiring challenge! This project is a simplified version of our production chat application, designed to assess your full-stack engineering skills.
+Welcome to the MUI Assistant hiring challenge! This project is a production-style chat application with an AI assistant that helps users build Material-UI components.
 
-## Overview
+## Architecture Overview
 
-You'll choose **ONE** of the four challenges below to complete in **4-6 hours**. Each challenge tests different aspects of software engineering that are critical to our team.
+Before choosing a challenge, understand the existing system:
+
+**Backend** (`apps/backend/`):
+
+- Fastify server with PostgreSQL (Drizzle ORM)
+- MUI Assistant AI agent with tools (`search-docs`, `write-file`)
+- Vercel AI SDK for streaming responses
+- Messages stored with parts array (text, reasoning, tool-calls, files)
+
+**Frontend** (`apps/frontend/`):
+
+- Next.js 15 with React 19 and MUI v7
+- `useChat` hook for streaming chat
+- Live code preview using esbuild-browser (in-browser bundling)
+- Service worker serves built files to iframe
+
+**Key Data Flow**:
+
+1. User sends message → Backend processes with AI agent
+2. AI generates React components using `write-file` tool
+3. Files stream to frontend via SSE
+4. CodePreview bundles files in browser and renders in iframe
+
+See `docs/BACKEND_ARCHITECTURE.md` and `docs/FRONTEND_ARCHITECTURE.md` for details.
 
 ## Challenge Options
 
-| Challenge                                                                  | Focus Area       | Complexity  | Skills Tested                                |
-| -------------------------------------------------------------------------- | ---------------- | ----------- | -------------------------------------------- |
-| **[Challenge 1: Build Queue System](./challenge-1-build-queue.md)**        | Backend/Systems  | Medium-High | Concurrency, queue design, database patterns |
-| **[Challenge 2: Auto-Fix Model Integration](./challenge-2-auto-fix.md)**   | Full-Stack/AI    | High        | AI integration, streaming, full-stack        |
-| **[Challenge 3: Code Quality Scoring](./challenge-3-code-scoring.md)**     | Backend/Analysis | Medium      | Tool integration, metrics, API design        |
-| **[Challenge 4: Frontend Streaming](./challenge-4-frontend-streaming.md)** | Frontend/State   | Medium      | Real-time UI, SWR patterns, TypeScript       |
+| Challenge                                                                     | Focus Area       | Complexity  | Skills Tested                                      |
+| ----------------------------------------------------------------------------- | ---------------- | ----------- | -------------------------------------------------- |
+| **[Challenge 1: Build Queue System](./challenge-1-build-queue.md)**           | Frontend/State   | Medium      | Queue design, state management, caching            |
+| **[Challenge 2: Auto-Fix Integration](./challenge-2-auto-fix.md)**            | Full-Stack/AI    | High        | AI tools, streaming, error handling                |
+| **[Challenge 3: Code Quality Scoring](./challenge-3-code-scoring.md)**        | Backend/Analysis | Medium      | Code analysis, metrics, API design                 |
+| **[Challenge 4: Visual Preview Editor](./challenge-4-frontend-streaming.md)** | Frontend/UX      | Medium-High | DOM manipulation, iframe communication, state sync |
 
 ## How to Choose
 
-### Choose Challenge 1 or 3 if you:
+### Choose Challenge 1 if you:
 
-- Prefer backend/systems engineering
-- Enjoy architectural design problems
-- Like working with queues, databases, or analysis tools
+- Prefer frontend state management challenges
+- Enjoy queue and caching architectures
+- Like working with browser APIs (IndexedDB, localStorage)
 
 ### Choose Challenge 2 if you:
 
 - Want to showcase full-stack capabilities
 - Are interested in AI/LLM integration
-- Enjoy working across the entire stack
+- Enjoy extending existing systems with new features
+
+### Choose Challenge 3 if you:
+
+- Like code analysis and metrics
+- Prefer backend-focused work
+- Enjoy building developer tools
 
 ### Choose Challenge 4 if you:
 
-- Prefer frontend engineering
-- Excel at state management and real-time UIs
-- Want to demonstrate React/TypeScript expertise
+- Enjoy interactive UI challenges
+- Have experience with iframe communication
+- Like building visual editors and design tools
 
 ## General Guidelines
 
@@ -69,7 +98,7 @@ You'll choose **ONE** of the four challenges below to complete in **4-6 hours**.
 If you have clarifying questions:
 
 - Check `README.md` for setup instructions
-- Review existing code patterns
+- Review existing code patterns in `docs/` folder
 - Make reasonable assumptions and document them
 
 ---
@@ -78,7 +107,8 @@ Good luck! We're excited to see your approach to these problems. Remember: there
 
 ## Next Steps
 
-1. Read the challenge that interests you
-2. Review the existing codebase
-3. Copy `SOLUTION_TEMPLATE.md` to `SOLUTION.md`
-4. Start coding!
+1. Read the architecture docs (`docs/BACKEND_ARCHITECTURE.md`, `docs/FRONTEND_ARCHITECTURE.md`)
+2. Read the challenge that interests you
+3. Review the existing codebase
+4. Copy `SOLUTION_TEMPLATE.md` to `SOLUTION.md`
+5. Start coding!

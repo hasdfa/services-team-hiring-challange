@@ -6,78 +6,89 @@ This file contains **Challenge-Specific Criteria (30 points)**
 
 ## Challenge-Specific Scoring
 
-### Scoring Algorithm (15 points)
+### Scoring Algorithm (12 points)
 
-**Excellent (13-15)**
+**Excellent (11-12)**
 
-- 3+ metrics implemented correctly
-- Logical weighting scheme
-- Accurate analysis
-- Meaningful scores
+- 4+ meaningful metrics implemented
+- Logical, defensible weighting scheme
+- Accurate pattern detection
+- Handles edge cases (empty files, non-React)
+- Scores correlate with actual code quality
 
-**Good (10-12)**
+**Good (8-10)**
 
-- 2-3 metrics working
-- Basic weighting
-- Mostly accurate
+- 3-4 metrics working
+- Reasonable weights
+- Good accuracy on typical code
 
-**Acceptable (7-9)**
+**Acceptable (5-7)**
 
-- 1-2 metrics working
-- Equal weighting
-- Some accuracy issues
+- 2-3 basic metrics
+- Simple scoring
+- Some false positives/negatives
 
-**Poor (0-6)**
+**Poor (0-4)**
 
-- Metrics don't work
-- No clear algorithm
+- Minimal metrics
+- Scores don't reflect quality
+- Many false results
 
 ### API Design (10 points)
 
 **Excellent (9-10)**
 
-- RESTful endpoints
-- Type-safe
-- Good error handling
-- Clear documentation
+- RESTful endpoints following project conventions
+- Proper Zod validation
+- Clear request/response schemas
+- Score a message's files endpoint
+- Get scores endpoint
+- Direct scoring endpoint (optional)
 
 **Good (7-8)**
 
-- APIs work
-- Basic types
-- Some error handling
+- Endpoints work correctly
+- Good validation
+- Clear schemas
 
 **Acceptable (5-6)**
 
-- Basic APIs work
-- Minimal error handling
+- Basic endpoints
+- Limited validation
+- Unclear schemas
 
 **Poor (0-4)**
 
-- APIs broken
-- No error handling
+- Broken endpoints
+- No validation
+- Poor API design
 
-### Extensibility (5 points)
+### Extensibility (8 points)
 
-**Excellent (5)**
+**Excellent (7-8)**
 
 - Easy to add new metrics
-- Plugin architecture
-- Well documented
+- Configurable weights
+- Plugin-style analyzers
+- Clear interfaces for each dimension
+- Well-documented extension points
 
-**Good (3-4)**
+**Good (5-6)**
 
-- Can add metrics with effort
-- Some structure
+- Can add metrics with some effort
+- Weights configurable
+- Reasonable structure
 
-**Acceptable (2)**
+**Acceptable (3-4)**
 
-- Hard to extend
+- Hard to add metrics
+- Hardcoded values
 - Tightly coupled
 
-**Poor (0-1)**
+**Poor (0-2)**
 
-- Not extensible
+- Can't extend
+- Monolithic implementation
 
 ---
 
@@ -85,46 +96,114 @@ This file contains **Challenge-Specific Criteria (30 points)**
 
 ### Must Have
 
-- ✅ 3+ scoring dimensions working
-- ✅ Database schema created & migrated
-- ✅ POST /api/scores endpoint
-- ✅ GET endpoints for retrieving scores
-- ✅ Overall score calculation
+- ✅ Type Safety metric (any usage, type coverage)
+- ✅ Code Style metric (naming, formatting)
+- ✅ Complexity metric (cyclomatic, nesting)
+- ✅ Overall weighted score calculation
+- ✅ API endpoint to score files
+- ✅ Store scores linked to messages
 
 ### Should Have
 
-- ✅ Accurate metric implementations
-- ✅ Thoughtful weighting
-- ✅ Error handling
-- ✅ Metadata storage
+- ✅ React Best Practices metric
+- ✅ Accessibility metric
+- ✅ Issues array with categories
+- ✅ Suggestions for improvement
+- ✅ Metadata (lines of code, etc.)
 
-### Nice to Have
+### Nice to Have (Bonus)
 
-- 🌟 4+ metrics
-- 🌟 Visualization/charts
-- 🌟 Thresholds (pass/fail)
-- 🌟 Recommendations
-- 🌟 CLI tool
+- 🌟 Auto-score on message save
+- 🌟 Frontend score display
+- 🌟 Score trends over session
+- 🌟 AI-generated recommendations
+- 🌟 Pass/fail badges
 
 ---
 
 ## Testing Checklist
 
-- [ ] Can score TypeScript code
-- [ ] Multiple metrics work
-- [ ] Scores saved to database
-- [ ] Can retrieve score by ID
-- [ ] Can get scores for chat
-- [ ] Overall score is weighted average
-- [ ] Metadata contains details
-- [ ] Handles invalid code gracefully
+### Metrics
+
+- [ ] Type Safety: Detects `any`, missing types
+- [ ] Code Style: Checks naming, console logs
+- [ ] Complexity: Measures nesting, conditions
+- [ ] Best Practices: Checks keys in .map(), hooks
+- [ ] Accessibility: Checks alt text, aria labels
+
+### Scoring
+
+- [ ] High-quality code scores 85-100
+- [ ] Poor code scores 30-50
+- [ ] Weights sum to 1.0
+- [ ] Overall is weighted average
+- [ ] Scores bounded 0-100
+
+### API
+
+- [ ] POST /scores/message/:messageId works
+- [ ] GET /scores/message/:messageId works
+- [ ] POST /scores (direct) works
+- [ ] Validation catches bad input
+- [ ] Errors returned properly
+
+### Database
+
+- [ ] code_scores table created
+- [ ] Links to chat_messages correctly
+- [ ] All fields populated
+- [ ] Cascade delete works
 
 ---
 
-## Common Issues
+## Sample Test Cases
 
-❌ **Inaccurate metrics** - Scores don't reflect quality
-❌ **No weighting** - All metrics equal
-❌ **Poor extensibility** - Hard to add new metrics
-❌ **No metadata** - Can't debug scores
-❌ **Crashes on invalid code** - No error handling
+### High Quality Code (Expected: 85-100)
+
+```typescript
+import React from 'react';
+import { Button, Box } from '@mui/material';
+
+interface GreetingProps {
+  name: string;
+  onGreet: () => void;
+}
+
+export default function Greeting({ name, onGreet }: GreetingProps) {
+  return (
+    <Box sx={{ p: 2 }}>
+      <Button onClick={onGreet} aria-label={`Greet ${name}`}>
+        Hello, {name}!
+      </Button>
+    </Box>
+  );
+}
+```
+
+### Poor Quality Code (Expected: 30-50)
+
+```typescript
+export default function component(props: any) {
+  var x = props.items
+  return <div>{x.map(i => <div style={{color:'red'}}>{i.name}</div>)}</div>
+}
+```
+
+Expected issues:
+
+- `any` type usage
+- Missing key in map
+- `var` instead of `const`
+- Inline styles
+- Poor naming
+
+---
+
+## Common Issues to Watch For
+
+❌ **False positives**: Good code scored low  
+❌ **False negatives**: Bad code scored high  
+❌ **Non-deterministic**: Same code, different scores  
+❌ **Performance**: Slow analysis on large files  
+❌ **Hardcoded weights**: Can't adjust importance  
+❌ **No explanations**: Scores without context
