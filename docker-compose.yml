@@ -1,6 +1,16 @@
 version: '3.8'
 
 services:
+  sandpack-cdn:
+    image: ghcr.io/hasdfa/sandpack-cdn:2025-03-03
+    ports:
+      - '3002:3002'
+    environment:
+      NPM_ROCKS_DB: /data/npm-rocks.db
+      ENVIRONMENT: development
+      PORT: 3002
+    volumes:
+      - npm-rocks-data:/data
   postgres:
     image: postgres:16-alpine
     container_name: mui-assistant-postgres
@@ -20,3 +30,4 @@ services:
 
 volumes:
   postgres_data:
+  npm-rocks-data:

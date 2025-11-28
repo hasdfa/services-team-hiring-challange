@@ -1,256 +1,182 @@
-# General Evaluation Rubric
+# General Evaluation Rubric (70 Points)
 
-This rubric applies to all challenges. See challenge-specific evaluation files for additional criteria.
-
-## 1. Code Quality (30 points)
-
-### Excellent (27-30 points)
-
-- ✅ TypeScript used correctly with minimal `any` types
-- ✅ Clear naming conventions and consistent style
-- ✅ Proper separation of concerns
-- ✅ Reusable abstractions where appropriate
-- ✅ ESLint passes with zero warnings
-- ✅ No code duplication
-
-### Good (21-26 points)
-
-- TypeScript mostly correct, few `any` types
-- Generally clean and readable code
-- Some code duplication or minor organization issues
-- ESLint passes with minor warnings
-
-### Acceptable (15-20 points)
-
-- TypeScript used but with many `any` types
-- Code works but could be cleaner
-- Significant duplication or unclear structure
-- Several ESLint warnings
-
-### Needs Improvement (0-14 points)
-
-- Inconsistent or messy code
-- Hard to follow logic
-- Poor naming or organization
-- Many linting errors
+This rubric applies to **all challenges**. Challenge-specific criteria add an additional 30 points.
 
 ---
 
-## 2. Architecture (30 points)
+## Code Quality (25 points)
 
-### Excellent (27-30 points)
+### Excellent (22-25)
 
-- ✅ Well-thought-out system design
-- ✅ Clear separation of concerns
-- ✅ Scalable and extensible
-- ✅ Appropriate design patterns
-- ✅ State management is clean and predictable
-- ✅ Clear file/folder organization
+- Clean, readable code with consistent formatting
+- Meaningful variable/function names
+- Proper TypeScript usage (no `any` abuse)
+- Small, focused functions and components
+- DRY principles followed appropriately
+- Follows existing codebase patterns
 
-### Good (21-26 points)
+### Good (17-21)
 
-- Solid architecture with minor gaps
-- Generally good separation of concerns
-- Could be more scalable or extensible
-- Patterns mostly appropriate
+- Generally clean code
+- Good naming conventions
+- TypeScript used correctly
+- Some functions could be smaller
+- Minor duplication
 
-### Acceptable (15-20 points)
+### Acceptable (12-16)
 
-- Basic architecture that works
-- Some mixing of concerns
-- Limited extensibility
-- Pattern usage could be improved
+- Code works but is messy
+- Some poor naming choices
+- TypeScript types incomplete
+- Long functions
+- Noticeable duplication
 
-### Needs Improvement (0-14 points)
+### Poor (0-11)
 
-- Poor or unclear architecture
-- Tight coupling between components
-- Difficult to extend or maintain
-- Inappropriate pattern usage
+- Difficult to read/understand
+- Poor naming throughout
+- Missing types or `any` everywhere
+- Very long functions
+- Significant duplication
 
 ---
 
-## 3. Problem Solving (20 points)
+## Architecture (20 points)
 
-### Excellent (18-20 points)
+### Excellent (18-20)
 
-- ✅ Handles all major edge cases
-- ✅ Robust error handling and recovery
-- ✅ Considers performance implications
-- ✅ Addresses security concerns
-- ✅ Graceful degradation
+- Clear separation of concerns
+- Appropriate abstractions
+- Follows existing patterns in codebase
+- Easy to extend/modify
+- State management is clear
+- No unnecessary complexity
 
-### Good (14-17 points)
+### Good (14-17)
 
-- Handles most edge cases
-- Good error handling
-- Some performance considerations
-- Basic security awareness
+- Reasonable architecture
+- Generally follows patterns
+- Some areas could be cleaner
+- Mostly extensible
 
-### Acceptable (10-13 points)
+### Acceptable (10-13)
 
-- Handles happy path well
+- Architecture works but rigid
+- Deviates from existing patterns
+- Hard to extend
+- Some concerns mixed together
+
+### Poor (0-9)
+
+- No clear architecture
+- Everything mixed together
+- Very hard to extend
+- Doesn't fit with codebase
+
+---
+
+## Error Handling (15 points)
+
+### Excellent (13-15)
+
+- All error cases handled
+- Graceful degradation
+- User-friendly error messages
+- Proper logging
+- No swallowed errors
+- Edge cases covered
+
+### Good (10-12)
+
+- Most errors handled
+- Good user messages
+- Some edge cases missed
+- Basic logging
+
+### Acceptable (7-9)
+
 - Basic error handling
-- Limited edge case coverage
-- Some security or performance oversights
+- Some errors crash the app
+- Generic error messages
+- Limited logging
 
-### Needs Improvement (0-9 points)
+### Poor (0-6)
 
-- Only happy path works
-- Poor or missing error handling
-- Ignores edge cases
-- Security or performance issues
-
----
-
-## 4. Documentation (10 points)
-
-### Excellent (9-10 points)
-
-- ✅ Clear, comprehensive SOLUTION.md
-- ✅ Code comments where needed (not for obvious code)
-- ✅ Architecture diagrams or explanations
-- ✅ Trade-offs and decisions explained
-- ✅ Future improvements discussed
-- ✅ Testing instructions provided
-
-### Good (7-8 points)
-
-- Good SOLUTION.md covering main points
-- Some code comments
-- Basic architecture explanation
-- Main decisions explained
-
-### Acceptable (5-6 points)
-
-- Basic SOLUTION.md
-- Minimal code comments
-- Limited architecture explanation
-- Few decisions explained
-
-### Needs Improvement (0-4 points)
-
-- Incomplete or unclear documentation
-- No SOLUTION.md or very brief
-- No code comments
-- Decisions not explained
+- Minimal error handling
+- App crashes on errors
+- No user feedback
+- No logging
 
 ---
 
-## 5. Engineering Judgment (10 points)
+## Documentation (10 points)
 
-### Excellent (9-10 points)
+### Excellent (9-10)
 
-- ✅ Appropriate tool/library selection
-- ✅ Clear understanding of trade-offs
-- ✅ YAGNI principle applied well
-- ✅ Realistic about limitations
-- ✅ Acknowledges future improvements
-- ✅ Time management evident
+- Clear SOLUTION.md explaining approach
+- Trade-offs documented
+- Setup instructions work
+- Code comments where needed
+- Time tracking included
 
-### Good (7-8 points)
+### Good (7-8)
 
-- Generally good tool selection
-- Understands most trade-offs
-- Mostly avoids over-engineering
-- Mentions some limitations
+- Good documentation
+- Most decisions explained
+- Setup works
+- Some comments
 
-### Acceptable (5-6 points)
+### Acceptable (5-6)
 
-- Tools work but may not be optimal
-- Limited trade-off analysis
-- Some over-engineering or under-engineering
-- Few limitations acknowledged
+- Basic documentation
+- Missing explanations
+- Setup mostly works
+- Few comments
 
-### Needs Improvement (0-4 points)
+### Poor (0-4)
 
-- Poor tool selection
-- No trade-off consideration
-- Significant over/under-engineering
-- No awareness of limitations
-
----
-
-## Red Flags (Automatic Concerns)
-
-These issues significantly impact evaluation:
-
-- ❌ Code doesn't run or requires major fixes
-- ❌ Security vulnerabilities (SQL injection, XSS, etc.)
-- ❌ No error handling whatsoever
-- ❌ Hardcoded credentials or secrets
-- ❌ No attempt at TypeScript type safety
-- ❌ Missing SOLUTION.md
-- ❌ Plagiarized code without attribution
-- ❌ Exceeded time limit significantly (>10 hours)
+- No/minimal documentation
+- No explanation of approach
+- Setup unclear
+- No comments
 
 ---
 
-## Green Flags (Positive Indicators)
+## Quick Reference
 
-These demonstrate exceptional engineering:
-
-- ✅ Tests included (not required but valued)
-- ✅ Performance optimizations with justification
-- ✅ Security considerations documented
-- ✅ Multiple approaches evaluated
-- ✅ Clean Git history with meaningful commits
-- ✅ Bonus features implemented thoughtfully
-- ✅ Code is production-ready quality
-- ✅ Clear time management and prioritization
-
----
-
-## Calibration Notes
-
-### Fair Evaluation
-
-1. **Compare similar challenges** - Don't compare Challenge 1 to Challenge 4 directly
-2. **Adjust for seniority** - Staff engineers should show deeper architectural thinking
-3. **Consider time** - 4-6 hours is limited, perfection isn't expected
-4. **Look for potential** - Can they learn and grow?
-5. **Be consistent** - Use same rubric for all candidates
-
-### Context Matters
-
-- **Partial solutions with great documentation** > Complete solutions with no explanation
-- **Clean, simple solutions** > Over-engineered complex ones
-- **Evidence of learning** > Showing off knowledge
-
-### When in Doubt
-
-- Refer to specific rubric criteria
-- Compare to previous submissions
-- Discuss with another evaluator
-- Be generous but fair
+| Category           | Weight      | Focus                                |
+| ------------------ | ----------- | ------------------------------------ |
+| Code Quality       | 25 pts      | Readability, TypeScript, patterns    |
+| Architecture       | 20 pts      | Structure, separation, extensibility |
+| Error Handling     | 15 pts      | Coverage, UX, logging                |
+| Documentation      | 10 pts      | SOLUTION.md, comments, setup         |
+| **Subtotal**       | **70 pts**  |                                      |
+| Challenge-Specific | 30 pts      | See per-challenge file               |
+| **Total**          | **100 pts** |                                      |
 
 ---
 
-## Feedback Template
+## Common Deductions
 
-```markdown
-## Challenge Submission Feedback
+| Issue                            | Deduction | Notes                       |
+| -------------------------------- | --------- | --------------------------- |
+| No TypeScript types              | -5 to -10 | Depending on extent         |
+| Doesn't follow existing patterns | -5        | Should match codebase style |
+| No error handling                | -5 to -10 | User shouldn't see crashes  |
+| No SOLUTION.md                   | -10       | Required documentation      |
+| Code doesn't run                 | -15       | Must be testable            |
+| Missing time tracking            | -2        | Should estimate hours       |
 
-**Challenge**: [Number and Name]
-**Total Score**: [X]/100
+---
 
-### Strengths
+## Bonus Points
 
-- [Specific positive observation]
-- [Another strength]
-- [Another strength]
+Bonus points (up to +10) may be awarded for:
 
-### Areas for Improvement
+- Exceptional code quality beyond expectations
+- Thoughtful bonus features that work well
+- Outstanding documentation
+- Particularly elegant solutions
+- Comprehensive testing
 
-- [Specific constructive feedback]
-- [Another area]
-- [Another area]
-
-### Standout Moments
-
-- [Something particularly impressive]
-
-### Decision: [Hire/No Hire/Maybe]
-
-**Reasoning**: [Brief explanation of decision]
-```
+Note: Bonuses cannot exceed 100 total points.

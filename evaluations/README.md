@@ -1,50 +1,66 @@
-# Evaluation Guidelines
+# MUI Assistant: Evaluation Guidelines
 
-This directory contains evaluation rubrics for the MUI Assistant hiring challenge.
+This folder contains evaluation rubrics for the MUI Assistant hiring challenges.
 
-## Files
+## Structure
 
-- **[general-rubric.md](./general-rubric.md)** - Overall scoring criteria (applies to all challenges)
-- **[challenge-1-evaluation.md](./challenge-1-evaluation.md)** - Specific criteria for Build Queue System
-- **[challenge-2-evaluation.md](./challenge-2-evaluation.md)** - Specific criteria for Auto-Fix Model
-- **[challenge-3-evaluation.md](./challenge-3-evaluation.md)** - Specific criteria for Code Quality Scoring
-- **[challenge-4-evaluation.md](./challenge-4-evaluation.md)** - Specific criteria for Frontend Streaming
+- **[general-rubric.md](./general-rubric.md)**: Base scoring criteria (70 points) applicable to all challenges
+- **Challenge-specific files**: Additional criteria (30 points) for each challenge
 
 ## Scoring Overview
 
-**Total**: 100 Points
+**Total: 100 points**
 
-| Category                 | Points | Description                               |
-| ------------------------ | ------ | ----------------------------------------- |
-| **Code Quality**         | 30     | Clean, maintainable, well-structured code |
-| **Architecture**         | 30     | Design decisions, scalability, patterns   |
-| **Problem Solving**      | 20     | Approach, edge cases, error handling      |
-| **Documentation**        | 10     | Code comments, SOLUTION.md quality        |
-| **Engineering Judgment** | 10     | Trade-off analysis, tool selection        |
+| Category           | Points | Source         |
+| ------------------ | ------ | -------------- |
+| Code Quality       | 25     | General Rubric |
+| Architecture       | 20     | General Rubric |
+| Error Handling     | 15     | General Rubric |
+| Documentation      | 10     | General Rubric |
+| Challenge-Specific | 30     | Per-Challenge  |
 
-## Hiring Decision Matrix
+## Challenge Evaluations
 
-| Total Score | Decision                                 |
-| ----------- | ---------------------------------------- |
-| 85-100      | **Strong Hire** - Exceptional candidate  |
-| 70-84       | **Hire** - Solid candidate, meets bar    |
-| 55-69       | **Maybe** - Review carefully, borderline |
-| 0-54        | **No Hire** - Below bar                  |
+| Challenge                  | Evaluation File                                          | Key Focus                                          |
+| -------------------------- | -------------------------------------------------------- | -------------------------------------------------- |
+| Challenge 1: Build Queue   | [challenge-1-evaluation.md](./challenge-1-evaluation.md) | Queue design, state management, caching strategy   |
+| Challenge 2: Auto-Fix      | [challenge-2-evaluation.md](./challenge-2-evaluation.md) | AI integration, streaming, full-stack coordination |
+| Challenge 3: Code Scoring  | [challenge-3-evaluation.md](./challenge-3-evaluation.md) | Analysis accuracy, API design, extensibility       |
+| Challenge 4: Visual Editor | [challenge-4-evaluation.md](./challenge-4-evaluation.md) | Component architecture, UX design, code sync       |
 
-## Evaluation Process
+## Using These Rubrics
 
-1. **Initial Review** (15 min) - Does it run? Is SOLUTION.md present?
-2. **Deep Dive** (30 min) - Test functionality, review architecture
-3. **Scoring** (10 min) - Apply rubric systematically
-4. **Decision** (5 min) - Compare to hiring bar
+1. **Start with General Rubric**: Apply the 70-point base criteria
+2. **Add Challenge Points**: Apply the 30-point challenge-specific criteria
+3. **Document Rationale**: Note specific examples for major deductions
+4. **Consider Context**: Account for time constraints and stated assumptions
 
-## Important Notes
+## Grade Boundaries
 
-- **Adjust for seniority**: Staff engineers should show more architectural depth
-- **Time context**: 4-6 hours is limited, don't expect perfection
-- **Compare fairly**: Only compare candidates who did the same challenge
-- **Look for potential**: Can they learn and grow?
+| Score  | Rating             | Description                            |
+| ------ | ------------------ | -------------------------------------- |
+| 90-100 | Exceptional        | Production-ready, exceeds expectations |
+| 80-89  | Strong             | Well-executed with minor gaps          |
+| 70-79  | Acceptable         | Meets core requirements                |
+| 60-69  | Below Expectations | Missing key requirements               |
+| <60    | Insufficient       | Significant issues                     |
 
----
+## Red Flags
 
-See individual evaluation files for challenge-specific criteria.
+Automatic disqualifiers or major concerns:
+
+- ❌ Code doesn't compile/run
+- ❌ Missing core functionality
+- ❌ Security vulnerabilities
+- ❌ No documentation
+- ❌ Plagiarism detected
+
+## Green Flags
+
+Indicators of strong submissions:
+
+- ✅ Clear problem understanding
+- ✅ Clean code with good patterns
+- ✅ Thoughtful trade-off analysis
+- ✅ Working tests
+- ✅ Bonus features implemented

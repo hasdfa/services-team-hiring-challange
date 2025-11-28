@@ -1,4 +1,4 @@
-# Challenge 2: Auto-Fix Model - Evaluation
+# Challenge 2: Auto-Fix Integration - Evaluation
 
 **See [general-rubric.md](./general-rubric.md) for base scoring (70 points)**
 
@@ -6,99 +6,88 @@ This file contains **Challenge-Specific Criteria (30 points)**
 
 ## Challenge-Specific Scoring
 
-### LLM Integration (10 points)
+### AI Integration (12 points)
 
-**Excellent (9-10)**
+**Excellent (11-12)**
 
-- Correct API usage
-- Good prompt engineering
-- Handles API errors/limits
-- Efficient token usage
+- Backend ESLint integration catches errors before streaming
+- Errors streamed inline with code response
+- Clean integration with existing MUI Assistant agent
+- Proper prompt engineering for fix context
+- Good error parsing and categorization
 
-**Good (7-8)**
+**Good (8-10)**
 
-- API works
-- Basic prompting
-- Some error handling
+- Working ESLint backend integration
+- Errors sent to frontend
+- Reasonable AI prompting
 
-**Acceptable (5-6)**
+**Acceptable (5-7)**
 
-- API calls work
-- Minimal error handling
+- Basic error detection
+- Limited prompt engineering
+- Missing some error types
 
 **Poor (0-4)**
 
-- API integration broken
-- No error handling
+- No proper error detection
+- Poor AI integration
+- Prompts don't work well
 
 ### Streaming Implementation (10 points)
 
 **Excellent (9-10)**
 
-- SSE implemented correctly
-- Smooth real-time updates
-- Proper cleanup
-- Error handling
+- Errors stream inline with original response
+- Smooth UI updates during fix streaming
+- Proper SSE event handling
+- No memory leaks or dangling connections
+- Clean abort/cleanup handling
 
 **Good (7-8)**
 
 - Streaming works
-- Some errors handled
+- Good UI updates
+- Minor cleanup issues
 
 **Acceptable (5-6)**
 
 - Basic streaming
-- Minimal error handling
+- Choppy updates
+- Some cleanup issues
 
 **Poor (0-4)**
 
-- Streaming doesn't work
-- No cleanup
+- Streaming broken
+- Poor UX during stream
+- Memory leaks
 
-### Full-Stack Integration (10 points)
+### Full-Stack Integration (8 points)
 
-**Excellent (9-10)**
+**Excellent (7-8)**
 
-- Frontend ↔ Backend seamless
-- Database persistence correct
+- Seamless frontend ↔ backend flow
+- Build errors captured properly
+- Fix request/response cycle clear
 - State management clean
-- Great UX
+- Database persistence for fixes
 
-**Good (7-8)**
+**Good (5-6)**
 
 - Integration works
-- Basic state management
+- Error capture functional
+- Some state issues
 
-**Acceptable (5-6)**
+**Acceptable (3-4)**
 
-- Works but clunky
-- Poor state management
+- Basic integration
+- Error capture incomplete
+- State management messy
 
-**Poor (0-4)**
+**Poor (0-2)**
 
-- Integration broken
-
-## Bonus: A/B Testing (up to +10 points)
-
-If implemented, can boost overall score:
-
-**Excellent (+8-10)**
-
-- Multiple models working
-- Proper variant assignment
-- Analytics/tracking
-- Clear documentation
-
-**Good (+5-7)**
-
-- Basic A/B framework
-- 2 models working
-- Simple tracking
-
-**Basic (+2-4)**
-
-- Concept demonstrated
-- Minimal implementation
+- Broken integration
+- Poor error capture
 
 ---
 
@@ -106,43 +95,69 @@ If implemented, can boost overall score:
 
 ### Must Have
 
-- ✅ LLM API integration works
-- ✅ Streaming response to frontend
-- ✅ Messages saved to database
-- ✅ Basic error handling
+- ✅ Backend catches code blocks and runs ESLint
+- ✅ Linting errors sent to frontend in stream
+- ✅ Build errors from CodePreview captured
+- ✅ Errors sent to AI for analysis
+- ✅ AI streams fix response
+- ✅ User can see fix explanation
 
 ### Should Have
 
-- ✅ Good prompt engineering
-- ✅ Clean streaming implementation
-- ✅ Rate limit handling
-- ✅ Nice UI/UX
+- ✅ Error categorization (syntax, type, lint, etc.)
+- ✅ Clear UI for error display
+- ✅ Fix progress indication
+- ✅ Database persistence for fix history
+- ✅ "Apply Fix" button with confirmation
 
 ### Nice to Have (Bonus)
 
-- 🌟 A/B testing framework
-- 🌟 Multiple LLM providers
-- 🌟 Analytics dashboard
-- 🌟 Cost tracking
+- 🌟 Diff view (original vs fixed)
+- 🌟 Multi-error handling
+- 🌟 Fix success rate tracking
+- 🌟 Automatic retry on failure
+- 🌟 Error prevention hints
 
 ---
 
 ## Testing Checklist
 
-- [ ] Auto-fix endpoint responds
-- [ ] Streaming works in browser
-- [ ] Messages saved to DB
-- [ ] Handles invalid code gracefully
-- [ ] API errors shown to user
-- [ ] Can test multiple requests
-- [ ] A/B testing (if implemented) assigns variants
+### Backend ESLint Integration
+
+- [ ] Code blocks detected in AI response
+- [ ] ESLint runs on generated code
+- [ ] Lint errors included in stream
+- [ ] Non-blocking to main response
+
+### Error Capture
+
+- [ ] Build errors captured from CodePreview
+- [ ] Error message parsed correctly
+- [ ] File and line info extracted
+- [ ] Original code available in request
+
+### AI Fix Flow
+
+- [ ] Fix request sent with error context
+- [ ] AI understands the error
+- [ ] Fix streams back properly
+- [ ] New code renders correctly
+
+### UI/UX
+
+- [ ] Error clearly displayed
+- [ ] "Auto-Fix" button visible
+- [ ] Progress shown during fix
+- [ ] Fix result shown before applying
+- [ ] Apply/cancel options clear
 
 ---
 
-## Common Issues
+## Common Issues to Watch For
 
-❌ **No streaming** - Returns complete response at once
-❌ **Memory leaks** - Streams not closed
-❌ **Poor prompts** - Generic, not focused on fixing
-❌ **No persistence** - Messages not saved
-❌ **API key exposed** - Hardcoded in frontend
+❌ **Lost context**: AI doesn't receive enough info to fix  
+❌ **Infinite loops**: Fix creates new error, triggers new fix  
+❌ **No feedback**: User doesn't see fix progress  
+❌ **Broken stream**: SSE parsing issues  
+❌ **State corruption**: Original code lost during fix  
+❌ **No rollback**: Can't revert to original if fix is worse

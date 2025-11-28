@@ -17,7 +17,7 @@ import {
   ChatView,
   type FilePartFromBackend,
   type ExtendedUIMessage,
-} from '@/components/ChatView';
+} from '@/components/chat';
 import type { Chat } from '@repo/shared/schemas';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
@@ -162,6 +162,9 @@ function ChatPageContent() {
     [chatId]
   );
 
+  // Keep a ref to streaming messages for optimistic update in onFinish
+  const streamingMessagesRef = useRef<ExtendedUIMessage[]>([]);
+
   const {
     messages: streamingMessages,
     sendMessage,
@@ -170,12 +173,32 @@ function ChatPageContent() {
   } = useChat({
     id: chatId,
     transport,
+    experimental_throttle: 600, // ms
     onFinish: () => {
-      // Refresh messages from backend after streaming completes
-      // This ensures we get the persisted version with files
-      mutate();
+      // Optimistic update: merge streaming messages into SWR cache immediately
+      // This prevents UI flash when streaming ends and before backend refetch completes
+      const currentStreamingMessages = streamingMessagesRef.current;
+      if (currentStreamingMessages.length > 0) {
+        mutate(
+          (currentData) => {
+            if (!currentData) return currentStreamingMessages;
+            // Merge: keep existing messages, add new streaming ones (avoiding duplicates)
+            const existingIds = new Set(currentData.map((m) => m.id));
+            const newMessages = currentStreamingMessages.filter(
+              (m) => !existingIds.has(m.id)
+            );
+            return [...currentData, ...newMessages];
+          },
+          { revalidate: true } // Still revalidate to get persisted data with files
+        );
+      }
     },
   });
+
+  // Keep streaming messages ref in sync
+  useEffect(() => {
+    streamingMessagesRef.current = streamingMessages as ExtendedUIMessage[];
+  }, [streamingMessages]);
 
   // Combine initial messages with streaming messages
   // When streaming, show streaming messages; otherwise show initial messages
