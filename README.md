@@ -18,6 +18,7 @@ pnpm install
 
 # 2. Start databases
 docker-compose up -d
+docker exec -it mui-assistant-postgres createdb -U postgres mui_chat_mini
 
 # 3. Set up environment variables
 # Create .env files if they don't exist
