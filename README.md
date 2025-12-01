@@ -18,6 +18,7 @@ pnpm install
 
 # 2. Start databases
 docker-compose up -d
+docker exec -it mui-assistant-postgres createdb -U postgres mui_chat_mini
 
 # 3. Set up environment variables
 # Create .env files if they don't exist
@@ -94,12 +95,19 @@ curl -X POST http://localhost:3001/api/chats \
   -H "Content-Type: application/json" \
   -d '{"title": "Test Chat", "privacy": "private"}'
 
-# Then send a message to the LLM (replace CHAT_ID with the ID from above)
-curl -X POST http://localhost:3001/api/llm/chat \
+# This will return JSON with an "id" field inside "data".
+# Copy that value and use it as CHAT_ID below.
+
+# Then send a message to the LLM (replace CHAT_ID with the id from above)
+curl -X POST http://localhost:3001/api/messages/send \
   -H "Content-Type: application/json" \
   -d '{
     "chatId": "CHAT_ID",
-    "message": "Hello, how are you?"
+    "role": "user",
+    "content": "Hello, how are you?",
+    "options": {
+      "reasoningEffort": "low"
+    }
   }'
 ```
 
@@ -113,14 +121,18 @@ When you sign up for a Vercel account, you get **$5 of credits every 30 days** t
 
 The LLM chat endpoint is available at:
 
-- **POST** `/api/llm/chat`
+- **POST** `/api/messages/send`
 
 **Request Body**:
 
 ```json
 {
   "chatId": "string (required)",
-  "message": "string (required, min 1 character)"
+  "role": "user",
+  "content": "string (required, min 1 character)",
+  "options": {
+    "reasoningEffort": "low" | "medium" | "high" (optional, defaults to "low")
+  }
 }
 ```
 

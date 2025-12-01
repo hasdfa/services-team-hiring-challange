@@ -3,6 +3,7 @@ version: '3.8'
 services:
   sandpack-cdn:
     image: ghcr.io/hasdfa/sandpack-cdn:2025-03-03
+    platform: linux/amd64
     ports:
       - '3002:3002'
     environment:
